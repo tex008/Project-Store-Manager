@@ -11,7 +11,13 @@ const productsController = {
     const result = await productsService.getById(id);
     return res.status(200).json(result);
   },
-  
+
+  create: async (req, res) => {
+    const { name } = req.body;
+    const newProduct = await productsService.create(name);
+    console.log(newProduct, 'no controller');
+    return res.status(201).json(newProduct);
+  }, 
 };
 
 module.exports = productsController;

@@ -34,7 +34,7 @@ describe('search for one product in db by id', () => {
     after(() => {
       productsModel.getById.restore();
     });
-    it('should throw a custom error', async () => { 
+    it('should throw a custom error', () => { 
       return expect(productsService.getById(13)).to.eventually.be.rejectedWith('Product not found');
     })
   });
