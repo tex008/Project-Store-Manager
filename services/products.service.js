@@ -11,7 +11,6 @@ const productsService = {
   getById: async (id) => {
     const result = await productsModel.getById(id); 
     if (!result.length) throw new NotFoundError('Product not found');
-    console.log(result[0]);
     return result[0];
   },
 };

@@ -1,9 +1,13 @@
+const chai = require('chai');
+const  { expect } = require('chai');
 const { describe } = require('mocha');
-const { expect } = require('chai');
 const sinon = require('sinon');
+const chaiAsPromised = require('chai-as-promised');
 
 const productsModel = require('../../../models/products.model');
 const productsService = require('../../../services/products.service');
+
+chai.use(chaiAsPromised);
 
 describe('search for one product in db by id', () => {
   describe('when there are a product with the id searched registred in db', () => {
@@ -14,35 +18,25 @@ describe('search for one product in db by id', () => {
       productsModel.getById.restore();
     });
     it('should return an object', async () => {
-      const result = await productsService.getById();
+      const result = await productsService.getById(1);
       expect(result).to.be.an('object');
     });
     it('should the objects have the properties "id" and "name"', async () => {
-      const result = await productsService.getById();
+      const result = await productsService.getById(1);
       expect(result).to.include.all.keys('id', 'name');
     });
   });
 
   describe('when there are not a product with the id searched registred in db', () => {
     before(() => {
-      sinon.stub(productsModel, 'getById').resolves([[]]);
+      sinon.stub(productsModel, 'getById').resolves([]);
     });
     after(() => {
       productsModel.getById.restore();
     });
-
-    it('should return an array', async () => {
-      const result = await productsService.getById();
-      expect(result).to.be.an('array');
+    it('should throw a custom error', async () => { 
+      return expect(productsService.getById(13)).to.eventually.be.rejectedWith('Product not found');
     })
-    it('should the array be empty', async () => {
-      const result = await productsService.getById();
-      expect(result).to.be.empty;
-    })
-    // it('should throw a custom error', async () => { 
-    //   const result = await productsService.getById();
-    //   expect(result).to.throws('Product not found');
-    // })
   });
 
 })
