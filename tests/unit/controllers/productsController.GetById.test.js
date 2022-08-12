@@ -10,7 +10,7 @@ describe('search for all products in db', () => {
     const req = {};
     const res = {};
     before(() => {
-      req.params = sinon.stub().returns(res);
+      req.params = { id: 1 };
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(productsService, 'getById').resolves({ id: 1, name: 'tex1' });

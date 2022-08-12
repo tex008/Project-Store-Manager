@@ -4,7 +4,6 @@ const NotFoundError = require('../errors/notFoundError');
 const productsService = {
   getAll: async () => {
     const data = await productsModel.getAll();
-    console.log(data);
     return data;
   },
 
