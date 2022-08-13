@@ -15,7 +15,6 @@ const productsController = {
   create: async (req, res) => {
     const { name } = req.body;
     const newProduct = await productsService.create(name);
-    console.log(newProduct, 'no controller');
     return res.status(201).json(newProduct);
   }, 
 };

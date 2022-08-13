@@ -1,5 +1,5 @@
 const productsModel = require('../models/products.model');
-const NotFoundError = require('../errors/notFoundError');
+const NotFoundError = require('../errors/NotFoundError');
 
 const productsService = {
   getAll: async () => {
@@ -15,7 +15,6 @@ const productsService = {
 
   create: async (name) => {
     const newProduct = await productsModel.create(name);
-    console.log(newProduct, 'no service');
     return newProduct;
   },
 };

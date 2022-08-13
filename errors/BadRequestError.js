@@ -1,10 +1,10 @@
 // conhecimento adquirido durante mentoria summer de instrução 11/08 - Luá
 
-class notFoundError extends Error {
+class BadRequestError extends Error {
   constructor(message) {
     super(message);
-    this.status = 404;
+    this.status = 400;
   }
 }
 
-module.exports = notFoundError;
+module.exports = BadRequestError;

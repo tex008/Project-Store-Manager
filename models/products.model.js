@@ -16,12 +16,10 @@ const productsModel = {
     const [result] = await connection
       .query('INSERT INTO StoreManager.products (name) VALUES (?);',
       [name]);
-    console.log('resultado:', result.insertId);
     const newProduct = {
       id: result.insertId,
       name,
     };
-    console.log(newProduct, 'no model');
     return newProduct;
   },
 };
