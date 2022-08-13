@@ -18,14 +18,6 @@ describe('search for one product in db by id', () => {
       const result = await productsModel.getById(1); 
       expect(result).to.be.an('object');
     });
-    // it('should the array have just one product', async () => {
-    //   const result = await productsModel.getById();
-    //   expect(result).to.have.length(1);
-    // });
-    // it('should the array contain objects', async () => {
-    //   const result = await productsModel.getById();
-    //   expect(result[0]).to.be.an('object');
-    // });
     it('should the objects have the properties "id" and "name"', async () => {
       const result = await productsModel.getById(1);
       expect(result).to.include.all.keys('id', 'name');

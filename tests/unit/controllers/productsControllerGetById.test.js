@@ -24,7 +24,7 @@ describe('search for all products in db', () => {
       expect(res.status.calledWith(200)).to.be.equal(true);
     });
     it('should return the object to the client', async () => {
-      await productsController.getAll(req, res);
+      await productsController.getById(req, res);
       expect(res.json.calledWith({ id: 1, name: 'tex1' })).to.be.equal(true);
     });
   });
