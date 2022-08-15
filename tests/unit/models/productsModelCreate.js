@@ -17,12 +17,10 @@ describe('insert a new product in db', () => {
 
     it('should return an object', async () => {
       const result = await productsModel.create({ name: 'tex008' });
-      console.log('resultado do teste', result);
       expect(result).to.be.an('object')
     });
     it('should the object have the properties "id" and "name"', async () => {
       const result = await productsModel.create({ name: 'tex008' });
-      console.log('resultado do teste',result);
       expect(result).to.include.all.keys('id', 'name');
     });
   });
