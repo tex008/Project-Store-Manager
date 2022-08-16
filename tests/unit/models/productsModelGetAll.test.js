@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/products.model');
 
-describe('search for all products in db', () => {
+describe('products model getAll - search for all products in db', () => {
   describe('when the are products registred in db', () => {
     before(() => {
       const stuntmanResult = [[{ id: 1, name: "tex" }], []];

@@ -13,6 +13,7 @@ const salesService = {
   },
   create: async (_sales) => {
     const newSale = await salesModel.createSale();
+    // validações?
     return newSale;
   },
 }; 

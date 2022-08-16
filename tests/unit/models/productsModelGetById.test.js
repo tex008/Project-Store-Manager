@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/products.model');
 
-describe('search for one product in db by id', () => {
+describe('products model getById - search for one product in db by id', () => {
   describe('when there are a product with the id searched registred in db', () => {
     before(() => {
       const stuntmanResult = [{ id: 1, name: "tex" }];

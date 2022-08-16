@@ -9,7 +9,7 @@ const productsService = require('../../../services/products.service');
 
 chai.use(chaiAsPromised);
 
-describe('search for one product in db by id', () => {
+describe('products Service getById - search for one product in db by id', () => {
   describe('when there are a product with the id searched registred in db', () => {
     before(() => {
       sinon.stub(productsModel, 'getById').resolves([{ id: 1, name: 'tex' }]);

@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/products.model');
 
-describe('insert a new product in db', () => {
+describe('products Model create - insert a new product in db', () => {
   describe('when the product is valid and was registred in db', () => {
     before(() => {
       const stuntmanResult = [{ affectedRows: 1, insertId: 1 }, undefined];

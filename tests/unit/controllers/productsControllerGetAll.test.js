@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const productsService = require('../../../services/products.service');
 const productsController = require('../../../controllers/products.controller');
 
-describe('search for all products in db', () => {
+describe('products Controller getAll - search for all products in db', () => {
   describe('when the are products registred in db', () => {
     const req = {};
     const res = {};

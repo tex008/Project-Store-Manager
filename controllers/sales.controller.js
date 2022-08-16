@@ -13,6 +13,7 @@ const salesController = {
   create: async (req, res) => {
     const sales = req.body;
     const newSale = await salesService.create(sales);
+    // posso chamar um novo service aqui sem ter um controller especifico?
     return res.status(201).json(newSale);
   },
 };

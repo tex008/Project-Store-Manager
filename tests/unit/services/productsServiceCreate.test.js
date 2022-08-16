@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const productsService = require('../../../services/products.service');
 const productsModel = require('../../../models/products.model');
 
-describe('insert a new product in db', () => {
+describe('products Service create - insert a new product in db', () => {
   describe('when the product is valid and was registred in db', () => {
     before(() => {
       sinon.stub(productsModel, 'create').resolves({ id: 1, name: 'tex' });

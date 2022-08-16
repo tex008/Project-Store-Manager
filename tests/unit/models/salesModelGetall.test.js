@@ -1,0 +1,68 @@
+const { describe } = require('mocha');
+const { expect } = require('chai');
+const sinon = require('sinon');
+
+const connection = require('../../../models/connection');
+const salesModel = require('../../../models/sales.model');
+
+describe('sales Model getAll - search for all sales in db', () => {
+  describe('when the are sales registred in db', () => {
+    before(() => {
+      const stuntmanResult = [[
+        {
+          "saleId": 1,
+          "date": "2022-08-15T23:03:44.000Z",
+          "productId": 1,
+          "quantity": 5
+        },
+        {
+          "saleId": 2,
+          "date": "2022-08-15T23:03:44.000Z",
+          "productId": 3,
+          "quantity": 15
+        }
+      ], []];
+      sinon.stub(connection, 'query').resolves(stuntmanResult);
+    });
+    after(() => {
+      connection.query.restore();
+    });
+
+    it('should return an array', async () => {
+      const result = await salesModel.getAll();
+      expect(result).to.be.an('array');
+    });
+    it('should the array not be empty', async () => {
+      const result = await salesModel.getAll();
+      expect(result[0]).to.be.not.empty;
+    });
+    it('should the array contain objects', async () => {
+      const result = await salesModel.getAll();
+      expect(result[0], result[1]).to.be.an('object');
+    });
+    it('should the objects have the properties "saleId", "date", "productId" and "quantity"', async () => {
+      const result = await salesModel.getAll();
+      expect(result[0]).to.include.all.keys('saleId', 'date', 'productId', 'quantity');
+    });
+  });
+
+  describe('when there are not sales registred in db', () => {
+    before(() => {
+      const stuntmanResult = [[], []];
+      sinon.stub(connection, 'query').resolves(stuntmanResult);
+    });
+    after(() => {
+      connection.query.restore();
+    });
+
+    it('should return an array', async () => {
+      const result = await salesModel.getAll();
+      expect(result).to.be.an('array');
+    })
+    it('should the array be empty', async () => {
+      const result = await salesModel.getAll();
+      expect(result).to.be.empty;
+    })
+  })
+
+})
