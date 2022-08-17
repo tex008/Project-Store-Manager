@@ -122,7 +122,7 @@ describe('sales model getById - search for one sale in db by id', () => {
 
 });
 
-describe('salesModel createSale - insert a new sale in db', () => {
+describe('salesModel create - insert a new sale in db', () => {
   describe('when the sale is valid and was registred in db', () => {
     before(() => {
       const stuntmanResult = [{ insertId: 1 }, undefined];
@@ -133,7 +133,7 @@ describe('salesModel createSale - insert a new sale in db', () => {
     });
 
     it('should return an object', async () => {
-      const result = await salesModel.createSale({ product: 'galão da massa' , quantity: 2});
+      const result = await salesModel.create({ product: 'galão da massa' , quantity: 2});
       expect(result).to.be.equal(1);
     });
   });

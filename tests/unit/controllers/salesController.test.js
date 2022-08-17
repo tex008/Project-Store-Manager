@@ -126,3 +126,29 @@ describe('sales Controller getById - search for one sale in db by id', () => {
     });
   });
 })
+
+describe('sales Controller create - insert a new sale in db', () => {
+  describe('when the product is valid and was registred in db, so the sale can be created successfully', () => {
+    const req = {};
+    const res = {};
+    before(() => {
+      req.body = [{ productId: 2, quantity: 1 }];
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'create').resolves({ id: 4, itemsSold: [{ productId: 2, quantity: 1 }] });
+    });
+    after(() => {
+      salesService.create.restore();
+    });
+
+    it('should return a status 201', async () => {
+      await salesController.create(req, res);
+      expect(res.status.calledWith(201)).to.be.equal(true);
+    });
+    it('should return the new sale registred to the client', async () => {
+      await salesController.create(req, res);
+      expect(res.json.calledWith({ id: 4, itemsSold: [{ productId: 2, quantity: 1 }] })).to.be.equal(true);
+    });
+  });
+
+})

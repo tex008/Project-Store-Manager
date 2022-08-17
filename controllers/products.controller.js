@@ -22,7 +22,7 @@ const productsController = {
     const { name } = req.body;
     const { id } = req.params;
     await productsService.update(name, id);
-    res.status(200).json({ id, name });
+    return res.status(200).json({ id, name });
   },
 };
 

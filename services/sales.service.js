@@ -18,9 +18,9 @@ const salesService = {
     const newSaleProductIds = arrayOfSales.map((sale) => sale.productId);
     const allDbProducts = await productsModel.getAll();
     await validateIdProducts(allDbProducts, newSaleProductIds);
-    const newSaleId = await salesModel.createSale();
+    const newSaleId = await salesModel.create();
     await salesProductsModel
-      .createSaleProduct(arrayOfSales, newSaleId);
+    .createSaleProduct(arrayOfSales, newSaleId);
     const getNewSale = await salesProductsModel.getNewSale(newSaleId);
     const newSale = {
       id: newSaleId,

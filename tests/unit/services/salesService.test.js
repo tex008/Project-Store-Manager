@@ -10,6 +10,7 @@ chai.use(chaiAsPromised);
 const salesService = require('../../../services/sales.service');
 const salesModel = require('../../../models/sales.model');
 const NotFoundError = require('../../../errors/NotFoundError');
+const salesProductModel = require('../../../models/sales_product.model');
 
 describe('sales Service getAll - search for all sales in db', () => {
   describe('when the are sales registred in db', () => {
@@ -118,3 +119,28 @@ describe('sales Service getById - search for one sale in db by id', () => {
   });
 
 })
+
+
+// describe('sales Service create - insert a new product in db', () => {
+//   describe('when the products are valid and were registred in db, so its possible to create a sale', () => {
+//     before(() => {
+//       sinon.stub(salesModel, 'getAll').resolves({ id: 1, name: 'Bilubiluteteia do batman' }, { id: 2, name: 'Traje de encolhimento' });
+//       sinon.stub(salesModel, 'create').resolves(4);
+//       sinon.stub(salesProductModel, 'getNewSale').resolves([{ productId: 2, quantity: 1 }]);
+//     });
+//     after(() => {
+//       salesModel.getAll.restore();
+//       salesModel.create.restore();
+//       salesProductModel.getNewSale.restore();
+//     });
+//     it.only('should return an object', async () => {
+//       const result = await salesService.create([{ productId: 2, quantity: 1 }]);
+//       expect(result).to.be.an('object')
+//     });
+//   //   it('should the object have the properties "id" and "name"', async () => {
+//   //     const result = await productsService.create({ name: 'tex008' });
+//   //     expect(result).to.include.all.keys('id', 'name');
+//   //   });
+//   });
+
+// })

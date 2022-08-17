@@ -107,3 +107,30 @@ describe('products Controller create - insert a new product in db', () => {
   });
 
 })
+
+describe('products Controller update - update a name of a product in db', () => {
+  describe('when there are a product with the id searched registred in db, and the name is updated successfully', () => {
+    const req = {};
+    const res = {};
+    before(() => {
+      req.params = { id: 2 };
+      req.body = { name: 'tex1' };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'update').resolves();
+    });
+    after(() => {
+      productsService.update.restore();
+    });
+
+    it('should return a status 200', async () => {
+      await productsController.update(req, res);
+      expect(res.status.calledWith(200)).to.be.equal(true);
+    });
+    it('should return the new product registred to the client', async () => {
+      await productsController.update(req, res);
+      expect(res.json.calledWith({ id: 2, name: 'tex1' })).to.be.equal(true);
+    });
+  });
+
+})

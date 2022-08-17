@@ -13,7 +13,6 @@ const salesController = {
   create: async (req, res) => {
     const newSale = req.body;
     const newCreatedSale = await salesService.create(newSale);
-    console.log(newCreatedSale);
     res.status(201).json(newCreatedSale);
   },
 };

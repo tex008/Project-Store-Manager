@@ -121,7 +121,6 @@ describe('products Service update - update a name of a product in db', () => {
     });
     it('should return the affected rows', async () => {
       const result = await productsService.update('tex', 2);
-      console.log(result);
       expect(result).to.be.equal(1);
     });
   });
