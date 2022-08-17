@@ -20,7 +20,6 @@ const productsService = {
 
   update: async (name, id) => {
     const { affectedRows } = await productsModel.update(name, id);
-    console.log(affectedRows);
     if (affectedRows === 0) throw new NotFoundError('Product not found');
     return affectedRows;
   },

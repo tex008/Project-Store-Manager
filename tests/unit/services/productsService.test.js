@@ -119,27 +119,23 @@ describe('products Service update - update a name of a product in db', () => {
     after(() => {
       productsModel.update.restore();
     });
-    it.only('should return the affected rows', async () => {
+    it('should return the affected rows', async () => {
       const result = await productsService.update('tex', 2);
       console.log(result);
       expect(result).to.be.equal(1);
     });
-    it('should the objects have the properties "id" and "name"', async () => {
-      const result = await productsService.getById(1);
-      expect(result).to.include.all.keys('id', 'name');
-    });
   });
 
-  // describe('when there are not a product with the id searched registred in db', () => {
-  //   before(() => {
-  //     sinon.stub(productsModel, 'getById').resolves([]);
-  //   });
-  //   after(() => {
-  //     productsModel.getById.restore();
-  //   });
-  //   it('should throw a custom error', () => {
-  //     return expect(productsService.getById(13)).to.eventually.be.rejectedWith('Product not found').and.be.an.instanceOf(NotFoundError);
-  //   })
-  // });
+  describe('when there are not a product with the id searched registred in db, therefore cannot be updated', () => {
+      before(() => {
+        sinon.stub(productsModel, 'update').resolves({affectedRows: 0});
+      });
+      after(() => {
+        productsModel.update.restore();
+      });
+      it('should throw a custom error', () => {
+        return expect(productsService.update('tex', 95)).to.eventually.be.rejectedWith('Product not found').and.be.an.instanceOf(NotFoundError);
+      })
+  });
 
-})
+});
