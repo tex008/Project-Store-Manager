@@ -124,10 +124,10 @@ describe('products Service update - update a name of a product in db', () => {
       console.log(result);
       expect(result).to.be.equal(1);
     });
-  //   it('should the objects have the properties "id" and "name"', async () => {
-  //     const result = await productsService.getById(1);
-  //     expect(result).to.include.all.keys('id', 'name');
-  //   });
+    it('should the objects have the properties "id" and "name"', async () => {
+      const result = await productsService.getById(1);
+      expect(result).to.include.all.keys('id', 'name');
+    });
   });
 
   // describe('when there are not a product with the id searched registred in db', () => {
