@@ -21,27 +21,25 @@ const validateData = {
 
   next();
   },
-};
 
-const validateNewSaleBody = (req, _res, next) => {
-  const { error } = isSaleValid(req.body);
+  validateNewSaleBody: (req, _res, next) => {
+    const { error } = isSaleValid(req.body);
 
-  if (error) {
-    const [code, message] = error.message.split('|');
-    switch (code) {
-      case '400':
-        throw new BadRequestError(message);
-      case '422':
-        throw new UnprocessableError(message);
-      default:
-        break;
+    if (error) {
+      const [code, message] = error.message.split('|');
+      switch (code) {
+        case '400':
+          throw new BadRequestError(message);
+        case '422':
+          throw new UnprocessableError(message);
+        default:
+          break;
+      }
     }
-  }
 
-  next();
+    next();
+  },
+
 };
 
-module.exports = {
-  validateData,
-  validateNewSaleBody,
-};
+module.exports = validateData;
