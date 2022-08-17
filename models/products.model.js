@@ -11,15 +11,6 @@ const productsModel = {
       .query('SELECT * FROM StoreManager.products WHERE id = ?;', [id]);
     return result;
   },
-
-  getByListOfIds: async (idArray) => {
-    console.log('array de ids', idArray);
-    // lembrar que idArray já em um id, então na hora de passar  no array de binds, não é necessário []
-    const [result] = await connection
-      .query('SELECT * FROM StoreManager.products WHERE id = ?;', idArray);
-    console.log('resultado da busca dos ids dos produtos', result);
-    return result;
-  },
   
   create: async (name) => {
     const [result] = await connection
@@ -30,6 +21,12 @@ const productsModel = {
       name,
     };
     return newProduct;
+  },
+
+  update: async (name, id) => {
+    const [result] = await connection
+      .query('UPDATE StoreManager.products SET name = ? WHERE id = ?', [name, id]);
+    return result;
   },
 };
 

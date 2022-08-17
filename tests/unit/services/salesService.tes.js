@@ -9,6 +9,7 @@ chai.use(chaiAsPromised);
 
 const salesService = require('../../../services/sales.service');
 const salesModel = require('../../../models/sales.model');
+const NotFoundError = require('../../../errors/NotFoundError');
 
 describe('sales Service getAll - search for all sales in db', () => {
   describe('when the are sales registred in db', () => {
@@ -112,7 +113,7 @@ describe('sales Service getById - search for one sale in db by id', () => {
       salesModel.getById.restore();
     });
     it('should throw a custom error', () => {
-      return expect(salesService.getById(13)).to.eventually.be.rejectedWith('Sale not found');
+      return expect(salesService.getById(13)).to.eventually.be.rejectedWith('Sale not found').and.be.an.instanceOf(NotFoundError);
     })
   });
 

@@ -87,7 +87,7 @@ describe('products model getById - search for one product in db by id', () => {
       expect(result).to.be.an('array');
     })
     it('should the array be empty', async () => {
-      const result = await productsModel.getById();
+      const result = await productsModel.getById(13);
       expect(result).to.be.empty;
     })
   })
@@ -111,6 +111,28 @@ describe('products Model create - insert a new product in db', () => {
     it('should the object have the properties "id" and "name"', async () => {
       const result = await productsModel.create({ name: 'tex008' });
       expect(result).to.include.all.keys('id', 'name');
+    });
+  });
+
+})
+
+describe('products Model update - update a name of a product in db', () => {
+  describe('when the product exist and is updated', () => {
+    before(() => {
+      const stuntmanResult = [{ affectedRows: 1 }, undefined];
+      sinon.stub(connection, 'query').resolves(stuntmanResult);
+    });
+    after(() => {
+      connection.query.restore();
+    });
+
+    it('should return an object', async () => {
+      const result = await productsModel.update({ name: 'tex008' });
+      expect(result).to.be.an('object')
+    });
+    it('should the object have the property "affectedRows"', async () => {
+      const result = await productsModel.update({ name: 'tex008' });
+      expect(result).to.include.all.keys('affectedRows');
     });
   });
 

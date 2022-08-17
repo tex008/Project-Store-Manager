@@ -8,6 +8,7 @@ chai.use(chaiAsPromised);
 
 const productsService = require('../../../services/products.service');
 const productsModel = require('../../../models/products.model');
+const NotFoundError = require('../../../errors/NotFoundError');
 
 describe('products Service getAll - search for all products in db', () => {
   describe('when the are products registred in db', () => {
@@ -83,7 +84,7 @@ describe('products Service getById - search for one product in db by id', () => 
       productsModel.getById.restore();
     });
     it('should throw a custom error', () => {
-      return expect(productsService.getById(13)).to.eventually.be.rejectedWith('Product not found');
+      return expect(productsService.getById(13)).to.eventually.be.rejectedWith('Product not found').and.be.an.instanceOf(NotFoundError);
     })
   });
 
@@ -107,5 +108,38 @@ describe('products Service create - insert a new product in db', () => {
       expect(result).to.include.all.keys('id', 'name');
     });
   });
+
+})
+
+describe('products Service update - update a name of a product in db', () => {
+  describe('when there are a product with the id searched registred in db, and the name is updated successfully', () => {
+    before(() => {
+      sinon.stub(productsModel, 'update').resolves({ affectedRows: 1 });
+    });
+    after(() => {
+      productsModel.update.restore();
+    });
+    it.only('should return the affected rows', async () => {
+      const result = await productsService.update('tex', 2);
+      console.log(result);
+      expect(result).to.be.equal(1);
+    });
+  //   it('should the objects have the properties "id" and "name"', async () => {
+  //     const result = await productsService.getById(1);
+  //     expect(result).to.include.all.keys('id', 'name');
+  //   });
+  });
+
+  // describe('when there are not a product with the id searched registred in db', () => {
+  //   before(() => {
+  //     sinon.stub(productsModel, 'getById').resolves([]);
+  //   });
+  //   after(() => {
+  //     productsModel.getById.restore();
+  //   });
+  //   it('should throw a custom error', () => {
+  //     return expect(productsService.getById(13)).to.eventually.be.rejectedWith('Product not found').and.be.an.instanceOf(NotFoundError);
+  //   })
+  // });
 
 })

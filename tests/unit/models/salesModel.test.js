@@ -121,3 +121,21 @@ describe('sales model getById - search for one sale in db by id', () => {
   });
 
 });
+
+describe('salesModel createSale - insert a new sale in db', () => {
+  describe('when the sale is valid and was registred in db', () => {
+    before(() => {
+      const stuntmanResult = [{ insertId: 1 }, undefined];
+      sinon.stub(connection, 'query').resolves(stuntmanResult);
+    });
+    after(() => {
+      connection.query.restore();
+    });
+
+    it('should return an object', async () => {
+      const result = await salesModel.createSale({ product: 'galão da massa' , quantity: 2});
+      expect(result).to.be.equal(1);
+    });
+  });
+
+})
