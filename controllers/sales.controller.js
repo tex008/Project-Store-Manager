@@ -11,10 +11,10 @@ const salesController = {
     return res.status(200).json(result);
   },
   create: async (req, res) => {
-    const sales = req.body;
-    const newSale = await salesService.create(sales);
-    // posso chamar um novo service aqui sem ter um controller especifico?
-    return res.status(201).json(newSale);
+    const newSale = req.body;
+    const newCreatedSale = await salesService.create(newSale);
+    console.log(newCreatedSale);
+    res.status(201).json(newCreatedSale);
   },
 };
 

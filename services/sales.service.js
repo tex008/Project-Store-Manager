@@ -1,5 +1,8 @@
 const salesModel = require('../models/sales.model');
 const NotFoundError = require('../errors/NotFoundError');
+const productsModel = require('../models/products.model');
+const validateIdProducts = require('../helpers/validateDbProducts');
+const salesProductsModel = require('../models/sales_product.model');
 
 const salesService = {
   getAll: async () => {
@@ -11,9 +14,18 @@ const salesService = {
     if (!result.length) throw new NotFoundError('Sale not found');
     return result;
   },
-  create: async (_sales) => {
-    const newSale = await salesModel.createSale();
-    // validações?
+  create: async (arrayOfSales) => {
+    const newSaleProductIds = arrayOfSales.map((sale) => sale.productId);
+    const allDbProducts = await productsModel.getAll();
+    await validateIdProducts(allDbProducts, newSaleProductIds);
+    const newSaleId = await salesModel.createSale();
+    await salesProductsModel
+      .createSaleProduct(arrayOfSales, newSaleId);
+    const getNewSale = await salesProductsModel.getNewSale(newSaleId);
+    const newSale = {
+      id: newSaleId,
+      itemsSold: getNewSale,
+    };
     return newSale;
   },
 }; 

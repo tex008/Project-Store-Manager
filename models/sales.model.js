@@ -27,12 +27,9 @@ const salesModel = {
     return result;
   },
   createSale: async () => {
-    const [newSaleData] = await connection
+    const [{ insertId }] = await connection
       .query('INSERT INTO StoreManager.sales (date) VALUES (DEFAULT);');
-    console.log(newSaleData);
-    const newSale = {
-      id: newSaleData.insertId,
-    };
+    const newSale = insertId;
     return newSale;
   },
 };
