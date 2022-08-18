@@ -133,4 +133,31 @@ describe('products Controller update - update a name of a product in db', () => 
     });
   });
 
-})
+});
+
+describe('products Controller delete - delete a product in db, searched by id', () => {
+  describe('when there are a product with the id searched registred in db, and the product is deleted successfully', () => {
+    const req = {};
+    const res = {};
+    before(() => {
+      req.params = { id: 1 };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      res.end = sinon.stub().returns();
+      sinon.stub(productsService, 'delete').resolves();
+    });
+    after(() => {
+      productsService.delete.restore();
+    });
+
+    it('should return a status 204', async () => {
+      await productsController.delete(req, res);
+      expect(res.status.calledWith(204)).to.be.equal(true);
+    });
+    it('should productsService.delete been called', async () => {
+      await productsController.delete(req, res);
+      expect(productsService.delete.calledWith(1)).to.be.equal(true);
+    });
+  });
+
+});

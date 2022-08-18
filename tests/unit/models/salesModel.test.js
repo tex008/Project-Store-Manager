@@ -133,9 +133,31 @@ describe('salesModel create - insert a new sale in db', () => {
     });
 
     it('should return an object', async () => {
-      const result = await salesModel.create({ product: 'galão da massa' , quantity: 2});
+      const result = await salesModel.create({ product: 'galão da massa', quantity: 2 });
       expect(result).to.be.equal(1);
     });
   });
 
-})
+});
+
+describe('sales Model delete - delete a sale in db, by id', () => {
+  describe('when the sale is valid and was registred in db, and can be deleted succesfully', () => {
+    before(() => {
+      const stuntmanResult = [{ affectedRows: 1 }, undefined];
+      sinon.stub(connection, 'query').resolves(stuntmanResult);
+    });
+    after(() => {
+      connection.query.restore();
+    });
+
+    it('should return an object', async () => {
+      const result = await salesModel.delete(1);
+      expect(result).to.be.an('object')
+    });
+    it('should the object have the property "affectedRows"', async () => {
+      const result = await salesModel.delete(1);
+      expect(result).to.include.all.keys('affectedRows');
+    });
+  });
+
+});

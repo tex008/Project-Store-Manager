@@ -138,3 +138,31 @@ describe('products Service update - update a name of a product in db', () => {
   });
 
 });
+
+describe('products Service delete - delete a name of a product in db', () => {
+  describe('when there are a product with the id searched registred in db, and the name is deleted successfully', () => {
+    before(() => {
+      sinon.stub(productsModel, 'delete').resolves({ affectedRows: 1 });
+    });
+    after(() => {
+      productsModel.delete.restore();
+    });
+    it('should return the affected rows', async () => {
+      const result = await productsService.delete(2);
+      expect(result).to.be.equal(1);
+    });
+  });
+
+  describe('when there are not a product with the id searched registred in db, therefore cannot be deleted', () => {
+    before(() => {
+      sinon.stub(productsModel, 'delete').resolves({ affectedRows: 0 });
+    });
+    after(() => {
+      productsModel.delete.restore();
+    });
+    it('should throw a custom error', () => {
+      return expect(productsService.delete(95)).to.eventually.be.rejectedWith('Product not found').and.be.an.instanceOf(NotFoundError);
+    })
+  });
+
+});

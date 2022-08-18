@@ -77,9 +77,6 @@ describe('products Service getAll - sales Controller getAll - search for all sal
   })
 })
 
-//
-
-
 describe('sales Controller getById - search for one sale in db by id', () => {
   describe('when there are a sale with the id searched registred in db', () => {
     const req = {};
@@ -151,4 +148,31 @@ describe('sales Controller create - insert a new sale in db', () => {
     });
   });
 
-})
+});
+
+describe('sales Controller delete - delete a sale in db, searched by id', () => {
+  describe('when there are a sale with the id searched registred in db, and the sale is deleted successfully', () => {
+    const req = {};
+    const res = {};
+    before(() => {
+      req.params = { id: 1 };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      res.end = sinon.stub().returns();
+      sinon.stub(salesService, 'delete').resolves();
+    });
+    after(() => {
+      salesService.delete.restore();
+    });
+
+    it('should return a status 204', async () => {
+      await salesController.delete(req, res);
+      expect(res.status.calledWith(204)).to.be.equal(true);
+    });
+    it('should salesService.delete been called', async () => {
+      await salesController.delete(req, res);
+      expect(salesService.delete.calledWith(1)).to.be.equal(true);
+    });
+  });
+
+});

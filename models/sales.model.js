@@ -34,7 +34,6 @@ const salesModel = {
   },
   delete: async (id) => {
     const [result] = await connection.query('DELETE FROM StoreManager.sales WHERE id = ?', [id]);
-    console.log('asds', result);
     return result;
   },
 };

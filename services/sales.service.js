@@ -20,7 +20,7 @@ const salesService = {
     await validateIdProducts(allDbProducts, newSaleProductIds);
     const newSaleId = await salesModel.create();
     await salesProductsModel
-    .createSaleProduct(arrayOfSales, newSaleId);
+      .createSaleProduct(arrayOfSales, newSaleId);
     const getNewSale = await salesProductsModel.getNewSale(newSaleId);
     const newSale = {
       id: newSaleId,
@@ -30,7 +30,6 @@ const salesService = {
   },
   delete: async (id) => {
     const { affectedRows } = await salesModel.delete(id);
-    console.log(affectedRows);
     if (affectedRows === 0) throw new NotFoundError('Sale not found');
     return affectedRows;
   },

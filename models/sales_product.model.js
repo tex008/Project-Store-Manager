@@ -2,10 +2,12 @@ const connection = require('./connection');
 
 const salesProductModel = {
   createSaleProduct: async (arrayOfSales, saleId) => {
-   await Promise.all(arrayOfSales.map((sale) => connection
+   const [[data]] = await Promise.all(arrayOfSales.map((sale) => connection
       .query(`INSERT INTO StoreManager.sales_products
     (sale_id, product_id, quantity)
     VALUES (?,?,?)`, [saleId, sale.productId, sale.quantity])));
+    const { affectedRows } = data;
+    return affectedRows;
   },
   
   getNewSale: async (id) => {

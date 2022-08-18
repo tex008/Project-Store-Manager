@@ -52,7 +52,7 @@ describe('products model getAll - search for all products in db', () => {
     })
   })
 
-})
+});
 
 describe('products model getById - search for one product in db by id', () => {
   describe('when there are a product with the id searched registred in db', () => {
@@ -92,7 +92,7 @@ describe('products model getById - search for one product in db by id', () => {
     })
   })
 
-})
+});
 
 describe('products Model create - insert a new product in db', () => {
   describe('when the product is valid and was registred in db', () => {
@@ -114,7 +114,7 @@ describe('products Model create - insert a new product in db', () => {
     });
   });
 
-})
+});
 
 describe('products Model update - update a name of a product in db', () => {
   describe('when the product exist and is updated', () => {
@@ -136,4 +136,26 @@ describe('products Model update - update a name of a product in db', () => {
     });
   });
 
-})
+});
+
+describe('products Model delete - delete a product in db, by id', () => {
+  describe('when the product is valid and was registred in db, and can be deleted succesfully', () => {
+    before(() => {
+      const stuntmanResult = [{ affectedRows: 1 }, undefined];
+      sinon.stub(connection, 'query').resolves(stuntmanResult);
+    });
+    after(() => {
+      connection.query.restore();
+    });
+
+    it('should return an object', async () => {
+      const result = await productsModel.delete(1);
+      expect(result).to.be.an('object')
+    });
+    it('should the object have the property "affectedRows"', async () => {
+      const result = await productsModel.delete(1);
+      expect(result).to.include.all.keys('affectedRows');
+    });
+  });
+
+});
