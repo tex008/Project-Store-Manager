@@ -17,12 +17,18 @@ const productsController = {
     const newProduct = await productsService.create(name);
     return res.status(201).json(newProduct);
   },
-  
+
   update: async (req, res) => {
     const { name } = req.body;
     const { id } = req.params;
     await productsService.update(name, id);
     return res.status(200).json({ id, name });
+  },
+
+  delete: async (req, res) => {
+    const { id } = req.params;
+    await productsService.delete(id);
+    res.status(204).end();
   },
 };
 

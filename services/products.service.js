@@ -8,7 +8,7 @@ const productsService = {
   },
 
   getById: async (id) => {
-    const result = await productsModel.getById(id); 
+    const result = await productsModel.getById(id);
     if (!result.length) throw new NotFoundError('Product not found');
     return result[0];
   },
@@ -20,6 +20,12 @@ const productsService = {
 
   update: async (name, id) => {
     const { affectedRows } = await productsModel.update(name, id);
+    if (affectedRows === 0) throw new NotFoundError('Product not found');
+    return affectedRows;
+  },
+
+  delete: async (id) => {
+    const { affectedRows } = await productsModel.delete(id);
     if (affectedRows === 0) throw new NotFoundError('Product not found');
     return affectedRows;
   },
