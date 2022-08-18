@@ -5,11 +5,13 @@ const salesController = {
     const data = await salesService.getAll();
     return res.status(200).json(data);
   },
+
   getById: async (req, res) => {
     const { id } = req.params;
     const result = await salesService.getById(id);
     return res.status(200).json(result);
   },
+
   create: async (req, res) => {
     const newSale = req.body;
     const newCreatedSale = await salesService.create(newSale);
@@ -20,6 +22,14 @@ const salesController = {
     const { id } = req.params;
     await salesService.delete(id);
     res.status(204).end();
+  },
+
+  update: async (req, res) => {
+    const { id } = req.params;
+    const arrayofProducts = req.body;
+    const updatedSale = await salesService.update(id, arrayofProducts);
+    console.log('res controller', updatedSale);
+    res.status(200).json(updatedSale);
   },
 };
 

@@ -122,8 +122,6 @@ describe('sales model getById - search for one sale in db by id', () => {
 
 });
 
-// errata commit anterior
-
 describe('salesModel create - insert a new sale in db', () => {
   describe('when the sale is valid and was registred in db', () => {
     before(() => {

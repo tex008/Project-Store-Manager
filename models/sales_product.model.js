@@ -1,11 +1,11 @@
 const connection = require('./connection');
 
 const salesProductModel = {
-  createSaleProduct: async (arrayOfSales, saleId) => {
-   const [[data]] = await Promise.all(arrayOfSales.map((sale) => connection
+  createSaleProduct: async (arrayofProducts, saleId) => {
+   const [[data]] = await Promise.all(arrayofProducts.map((product) => connection
       .query(`INSERT INTO StoreManager.sales_products
     (sale_id, product_id, quantity)
-    VALUES (?,?,?)`, [saleId, sale.productId, sale.quantity])));
+    VALUES (?,?,?)`, [saleId, product.productId, product.quantity])));
     const { affectedRows } = data;
     return affectedRows;
   },
@@ -16,6 +16,18 @@ const salesProductModel = {
         product_id AS productId,
         quantity
       FROM StoreManager.sales_products WHERE sale_id = ?`, [id]);
+    return result;
+  },
+
+  updateSale: async (saleId, arrayofProducts) => {
+    console.log('sale id', saleId, 'array of products', arrayofProducts);
+    arrayofProducts.map((product) => console.log('productID',
+      product.productId, 'product Quantity', product.quantity));
+    const result = await Promise.all(arrayofProducts.map((product) =>
+      connection
+      .query(`UPDATE StoreManager.sales_products
+      SET quantity = ?
+      WHERE sale_id = ? AND product_id = ?`, [product.quantity, saleId, product.productId])));
     return result;
   },
 
