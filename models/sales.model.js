@@ -32,6 +32,11 @@ const salesModel = {
     const newSale = insertId;
     return newSale;
   },
+  delete: async (id) => {
+    const [result] = await connection.query('DELETE FROM StoreManager.sales WHERE id = ?', [id]);
+    console.log('asds', result);
+    return result;
+  },
 };
 
 module.exports = salesModel;

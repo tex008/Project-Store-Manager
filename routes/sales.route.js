@@ -8,5 +8,6 @@ const route = Router();
 route.get('/', salesController.getAll);
 route.get('/:id', salesController.getById);
 route.post('/', validateNewSaleBody, salesController.create);
+route.delete('/:id', salesController.delete);
 
 module.exports = route;

@@ -28,6 +28,12 @@ const salesService = {
     };
     return newSale;
   },
+  delete: async (id) => {
+    const { affectedRows } = await salesModel.delete(id);
+    console.log(affectedRows);
+    if (affectedRows === 0) throw new NotFoundError('Sale not found');
+    return affectedRows;
+  },
 }; 
 
 module.exports = salesService;

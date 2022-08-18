@@ -15,6 +15,12 @@ const salesController = {
     const newCreatedSale = await salesService.create(newSale);
     res.status(201).json(newCreatedSale);
   },
+
+  delete: async (req, res) => {
+    const { id } = req.params;
+    await salesService.delete(id);
+    res.status(204).end();
+  },
 };
 
 module.exports = salesController;
