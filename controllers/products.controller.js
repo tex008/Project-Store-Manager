@@ -30,6 +30,12 @@ const productsController = {
     await productsService.delete(id);
     res.status(204).end();
   },
+
+  getByQueryString: async (req, res) => {
+    const { q } = req.query;
+    const findProductByQuery = await productsService.getByQueryString(q);
+    res.status(200).json(findProductByQuery);
+  },
 };
 
 module.exports = productsController;

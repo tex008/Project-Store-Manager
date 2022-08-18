@@ -20,9 +20,6 @@ const salesProductModel = {
   },
 
   updateSale: async (saleId, arrayofProducts) => {
-    console.log('sale id', saleId, 'array of products', arrayofProducts);
-    arrayofProducts.map((product) => console.log('productID',
-      product.productId, 'product Quantity', product.quantity));
     const result = await Promise.all(arrayofProducts.map((product) =>
       connection
       .query(`UPDATE StoreManager.sales_products

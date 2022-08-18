@@ -46,7 +46,6 @@ const salesService = {
     if (!sale.length) throw new NotFoundError('Sale not found');
     await salesProductModel.updateSale(saleId, arrayOfProducts);
     const getUpdatedSale = await salesProductsModel.getNewSale(saleId);
-    console.log('getupdatesale', getUpdatedSale);
     const updatedSale = {
       saleId,
       itemsUpdated: getUpdatedSale,

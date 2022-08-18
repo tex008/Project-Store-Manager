@@ -28,7 +28,6 @@ const salesController = {
     const { id } = req.params;
     const arrayofProducts = req.body;
     const updatedSale = await salesService.update(id, arrayofProducts);
-    console.log('res controller', updatedSale);
     res.status(200).json(updatedSale);
   },
 };

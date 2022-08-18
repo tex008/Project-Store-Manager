@@ -29,6 +29,12 @@ const productsService = {
     if (affectedRows === 0) throw new NotFoundError('Product not found');
     return affectedRows;
   },
+
+  getByQueryString: async (q) => {
+    const products = await productsModel.getAll();
+    const findName = products.filter((product) => product.name.includes(q));
+    return findName;
+  },
 };
 
 module.exports = productsService;
