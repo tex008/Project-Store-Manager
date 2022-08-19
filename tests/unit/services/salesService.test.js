@@ -11,6 +11,7 @@ const salesService = require('../../../services/sales.service');
 const salesModel = require('../../../models/sales.model');
 const NotFoundError = require('../../../errors/NotFoundError');
 const salesProductModel = require('../../../models/sales_product.model');
+const productsModel = require('../../../models/products.model');
 
 describe('sales Service getAll - search for all sales in db', () => {
   describe('when the are sales registred in db', () => {
@@ -121,29 +122,31 @@ describe('sales Service getById - search for one sale in db by id', () => {
 })
 
 
-// describe('sales Service create - insert a new product in db', () => {
-//   describe('when the products are valid and were registred in db, so its possible to create a sale', () => {
-//     before(() => {
-//       sinon.stub(salesModel, 'getAll').resolves({ id: 1, name: 'Bilubiluteteia do batman' }, { id: 2, name: 'Traje de encolhimento' });
-//       sinon.stub(salesModel, 'create').resolves(4);
-//       sinon.stub(salesProductModel, 'getNewSale').resolves([{ productId: 2, quantity: 1 }]);
-//     });
-//     after(() => {
-//       salesModel.getAll.restore();
-//       salesModel.create.restore();
-//       salesProductModel.getNewSale.restore();
-//     });
-//     it.only('should return an object', async () => {
-//       const result = await salesService.create([{ productId: 2, quantity: 1 }]);
-//       expect(result).to.be.an('object')
-//     });
-//     it.only('should the object have the properties "id" and "itemsSold"', async () => {
-//       const result = await salesService.create([{ productId: 2, quantity: 1 }]);
-//       expect(result).to.include.all.keys('id', 'itemsSold');
-//     });
-//   });
+describe('sales Service create - create a new sale in db', () => {
+  describe('when the products are valid and were registred in db, so its possible to create a sale', () => {
+    before(() => {
+      sinon.stub(productsModel, 'getAll').resolves([{ id: 1, name: 'Bilubiluteteia do batman' }, { id: 2, name: 'Traje de encolhimento' }]);
+      sinon.stub(salesModel, 'create').resolves(4);
+      sinon.stub(salesProductModel, 'createSaleProduct').resolves(1);
+      sinon.stub(salesProductModel, 'getNewSale').resolves([{ productId: 2, quantity: 1 }]);
+    });
+    after(() => {
+      productsModel.getAll.restore();
+      salesModel.create.restore();
+      salesProductModel.createSaleProduct.restore();
+      salesProductModel.getNewSale.restore();
+    });
+    it('should return an object', async () => {
+      const result = await salesService.create([{ productId: 2, quantity: 1 }]);
+      expect(result).to.be.an('object')
+    });
+    it('should the object have the properties "id" and "itemsSold"', async () => {
+      const result = await salesService.create([{ productId: 2, quantity: 1 }]);
+      expect(result).to.include.all.keys('id', 'itemsSold');
+    });
+  });
 
-// })
+});
 
 describe('sales Service delete - delete a sale in db', () => {
   describe('when there are a sale with the id searched registred in db, and the name is deleted successfully', () => {
@@ -168,6 +171,44 @@ describe('sales Service delete - delete a sale in db', () => {
     });
     it('should throw a custom error', () => {
       return expect(salesService.delete(95)).to.eventually.be.rejectedWith('Sale not found').and.be.an.instanceOf(NotFoundError);
+    })
+  });
+
+});
+
+describe('sales Service update - update a existent sale in db', () => {
+  describe('when the productsId are valid and were registred in db, so its possible to update a sale', () => {
+    before(() => {
+      sinon.stub(productsModel, 'getAll').resolves([{ id: 1, name: 'Bilubiluteteia do batman' }, { id: 2, name: 'Traje de encolhimento' }]);
+      sinon.stub(salesProductModel, 'getNewSale').onCall(0).resolves([{ productId: 1, quantity: 5 }, { productId: 2, quantity: 10 }]).onCall(1).resolves([{ productId: 1, quantity: 10 }, { productId: 2, quantity: 50 }]);
+      sinon.stub(salesProductModel, 'updateSale').resolves(1);
+    });
+    after(() => {
+      productsModel.getAll.restore();
+      salesProductModel.getNewSale.restore();
+      salesProductModel.updateSale.restore();
+    });
+    it('should return an object of products', async () => {
+      const result = await salesService.update(1,[{ productId: 1, quantity: 10 }, { productId: 2, quantity: 50 }]);
+      expect(result).to.be.an('object')
+    });
+  });
+
+  describe('when the productsId are not valid or the sale its not valid, so its impossible to update a sale', () => {
+    before(() => {
+      sinon.stub(productsModel, 'getAll').resolves([{ id: 1, name: 'Bilubiluteteia do batman' }, { id: 2, name: 'Traje de encolhimento' }]);
+      sinon.stub(salesProductModel, 'getNewSale').resolves([]);
+    });
+    after(() => {
+      productsModel.getAll.restore();
+      salesProductModel.getNewSale.restore();
+    });
+    it('should return an empty array of products', async () => {
+      const result = await salesProductModel.getNewSale(13);
+      expect(result).to.be.an('array')
+    });
+    it('should throw a custom error', () => {
+      return expect(salesService.update(13, [{ productId: 1, quantity: 10 }, { productId: 2, quantity: 50 }])).to.eventually.be.rejectedWith('Sale not found').and.be.an.instanceOf(NotFoundError);
     })
   });
 

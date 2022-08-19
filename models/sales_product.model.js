@@ -25,7 +25,8 @@ const salesProductModel = {
       .query(`UPDATE StoreManager.sales_products
       SET quantity = ?
       WHERE sale_id = ? AND product_id = ?`, [product.quantity, saleId, product.productId])));
-    return result;
+    const { affectedRows } = result;
+    return affectedRows;
   },
 
 };

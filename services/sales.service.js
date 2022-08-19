@@ -50,6 +50,7 @@ const salesService = {
       saleId,
       itemsUpdated: getUpdatedSale,
     };
+    console.log(updatedSale);
     return updatedSale;
   },
 }; 

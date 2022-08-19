@@ -54,20 +54,7 @@ describe('salesProducts Model updateSale - update a quantity of a product in a s
     after(() => {
       connection.query.restore();
     });
-
-    it('should return an object', async () => {
-      const result = await salesProductModel.updateSale(1, [
-        {
-          "productId": 1,
-          "quantity": 10
-        },
-        {
-          "productId": 2,
-          "quantity": 50
-        }
-      ]);
-      expect(result).to.be.an('object')
-    });
+    
     it('should the object have the property "affectedRows"', async () => {
       const result = await salesProductModel.updateSale(1, [
         {
@@ -79,7 +66,7 @@ describe('salesProducts Model updateSale - update a quantity of a product in a s
           "quantity": 50
         }
       ]);
-      expect(result).to.include.all.keys('affectedRows');
+      expect(result).to.be.equal(1);
     });
   });
 
