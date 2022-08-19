@@ -56,7 +56,7 @@ describe('products Service getAll - search for all products in db', () => {
     })
   })
 
-})
+});
 
 describe('products Service getById - search for one product in db by id', () => {
   describe('when there are a product with the id searched registred in db', () => {
@@ -163,6 +163,58 @@ describe('products Service delete - delete a name of a product in db', () => {
     it('should throw a custom error', () => {
       return expect(productsService.delete(95)).to.eventually.be.rejectedWith('Product not found').and.be.an.instanceOf(NotFoundError);
     })
+  });
+
+});
+
+
+describe('products Service getByQueryString - search for products in db based on a search made by the user', () => {
+  describe('when the search matches a product registred in db', () => {
+    before(() => {
+      sinon.stub(productsModel, 'getAll').resolves([
+        { id: 1, name: 'Capa do Batman' },
+        { id: 2, name: 'Capacete de Motoqueiro' },
+        { id: 3, name: 'Galão da Massa' }
+      ]);
+    });
+    after(() => {
+      productsModel.getAll.restore();
+    });
+
+    it('should return an array', async () => {
+      const result = await productsService.getByQueryString('Capa');
+      expect(result).to.be.an('array');
+    });
+    it('should the array not be empty', async () => {
+      const result = await productsService.getByQueryString('Capa');
+      expect(result).to.be.not.empty;
+    });
+    it('should the array contain objects', async () => {
+      const result = await productsService.getByQueryString('Capa');
+      expect(result[0], result[1]).to.be.an('object');
+    });
+    it('should the objects have the properties "id" and "name"', async () => {
+      const result = await productsService.getByQueryString('Capa');
+      expect(result[0], result[1]).to.include.all.keys('id', 'name');
+    });
+  });
+
+  describe('when the search does not match with a product registred in db', () => {
+    before(() => {
+      sinon.stub(productsModel, 'getAll').resolves([]);
+    });
+    after(() => {
+      productsModel.getAll.restore();
+    });
+
+      it('should return an array', async () => {
+        const result = await productsService.getByQueryString('Martelo');
+        expect(result).to.be.an('array');
+      })
+      it('should the array be empty', async () => {
+        const result = await productsService.getByQueryString('Martelo');
+        expect(result).to.be.empty;
+      })
   });
 
 });

@@ -20,7 +20,7 @@ const salesProductModel = {
   },
 
   updateSale: async (saleId, arrayofProducts) => {
-    const result = await Promise.all(arrayofProducts.map((product) =>
+    const [[result]] = await Promise.all(arrayofProducts.map((product) =>
       connection
       .query(`UPDATE StoreManager.sales_products
       SET quantity = ?

@@ -176,3 +176,44 @@ describe('sales Controller delete - delete a sale in db, searched by id', () => 
   });
 
 });
+
+describe('sales Controller update - update a sale in db', () => {
+  describe('when there are a sale with the id searched registred in db, and the name is updated successfully', () => {
+    const req = {};
+    const res = {};
+    before(() => {
+      req.params = { id: 1 };
+      req.body = [
+        { productId: 1, quantity: 10 }, { productId: 2, quantity: 50 }
+      ];
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'update').resolves();
+    });
+    after(() => {
+      salesService.update.restore();
+    });
+
+    it('should return a status 200', async () => {
+      await salesController.update(req, res);
+      expect(res.status.calledWith(200)).to.be.equal(true);
+    });
+    // it.only('should return the new sale registred to the client', async () => {
+    //   await salesController.update(req, res);
+    //   expect(res.json.calledWith({
+    //     "saleId": "1",
+    //     "itemsUpdated": [
+    //       {
+    //         "productId": 1,
+    //         "quantity": 10
+    //       },
+    //       {
+    //         "productId": 2,
+    //         "quantity": 50
+    //       }
+    //     ]
+    //   })).to.be.equal(true);
+    // });
+  });
+
+});

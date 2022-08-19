@@ -44,3 +44,43 @@ describe('Salesproducts Model getNewSale - search for the product id and product
   });
 
 });
+
+describe('salesProducts Model updateSale - update a quantity of a product in a sale registred in db', () => {
+  describe('when the product and sale exists and its quantity is updated', () => {
+    before(() => {
+      const stuntmanResult = [{ affectedRows: 1 }, undefined];
+      sinon.stub(connection, 'query').resolves(stuntmanResult);
+    });
+    after(() => {
+      connection.query.restore();
+    });
+
+    it('should return an object', async () => {
+      const result = await salesProductModel.updateSale(1, [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 50
+        }
+      ]);
+      expect(result).to.be.an('object')
+    });
+    it('should the object have the property "affectedRows"', async () => {
+      const result = await salesProductModel.updateSale(1, [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 50
+        }
+      ]);
+      expect(result).to.include.all.keys('affectedRows');
+    });
+  });
+
+});

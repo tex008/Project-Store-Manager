@@ -161,3 +161,67 @@ describe('products Controller delete - delete a product in db, searched by id', 
   });
 
 });
+
+describe('products Controller getByQueryString - search for products in db based on a search made by the user', () => {
+  describe('when the search matches a product registred in db', () => {
+    const req = {};
+    const res = {};
+    before(() => {
+      req.query = { q: 'Capa' }
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'getByQueryString').resolves([
+        { id: 1, name: 'Capa do Batman' },
+        { id: 2, name: 'Capacete de Motoqueiro' }
+      ]);
+    });
+    after(() => {
+      productsService.getByQueryString.restore();
+    });
+
+    it('should return a status 200', async () => {
+      await productsController.getByQueryString(req, res);
+      expect(res.status.calledWith(200)).to.be.equal(true);
+    });
+    it('should return the array with the matching products to the client', async () => {
+      await productsController.getAll(req, res);
+      expect(res.json.calledWith([
+        { id: 1, name: 'Capa do Batman' },
+        { id: 2, name: 'Capacete de Motoqueiro' }
+      ])).to.be.equal(true);
+    });
+  });
+
+  describe('when the search does not match with a product registred in db', () => {
+    const req = {};
+    const res = {};
+    before(() => {
+      req.query = { q: '' }
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'getByQueryString').resolves([
+        { id: 1, name: 'Capa do Batman' },
+        { id: 2, name: 'Capacete de Motoqueiro' },
+        { id: 3, name: 'Joãozinho na casa da Vovó' },
+        { id: 4, name: 'Galão da Massa' },
+      ]);
+    });
+    after(() => {
+      productsService.getByQueryString.restore();
+    });
+
+    it('should return a status 200', async () => {
+      await productsController.getByQueryString(req, res);
+      expect(res.status.calledWith(200)).to.be.equal(true);
+    });
+    it('should return the array to the client', async () => {
+      await productsController.getByQueryString(req, res);
+      expect(res.json.calledWith([
+        { id: 1, name: 'Capa do Batman' },
+        { id: 2, name: 'Capacete de Motoqueiro' },
+        { id: 3, name: 'Joãozinho na casa da Vovó' },
+        { id: 4, name: 'Galão da Massa' },
+      ])).to.be.equal(true);
+    });
+  })
+});
